@@ -28,6 +28,7 @@ app.post('/newMovement', (req, res)=>{
     console.log(req.body)
     bot.telegram.sendMessage(862519383, 'sensore di movimento scattato in cantina', {
     })
+    res.sendStatus(200)
 })
 
 bot.launch()
