@@ -22,14 +22,44 @@ io.on('connection', socket=>{
 
 })
 
+let buzzerIsOn = false
+let sendMessage = false
 
 app.post('/newMovement', (req, res)=>{
     console.log('arrivata')
     console.log(req.body)
-    bot.telegram.sendMessage(862519383, 'sensore di movimento scattato in cantina', {
-    })
-    res.sendStatus(200)
+    if(sendMessage){
+        bot.telegram.sendMessage(862519383, 'sensore di movimento scattato in garage', {
+        })
+    }
+    res.send({buzzerIsOn: buzzerIsOn})
 })
+
+//comandi per il bot
+
+//comandi per attivate e disattivare il suono del buzzer allo scattare di un sensore
+bot.command('attivaBuzzer', (ctx) => {
+    buzzerIsOn = true
+    ctx.reply('Buzzer attivato');
+    console.log('buzzer attivato')
+});
+bot.command('disattivaBuzzer', (ctx) => {
+    buzzerIsOn = false
+    ctx.reply('Buzzer disattivato');
+    console.log('buzzer disattivato')
+});
+
+//comandi per attivare e disattivare l'invio del messaggio allo scattare del sensore
+bot.command('attivaMessaggio', (ctx) => {
+    sendMessage = true
+    ctx.reply('Messaggi attivati');
+    console.log('Messaggi attivati')
+});
+bot.command('disattivaMessaggio', (ctx) => {
+    sendMessage = false
+    ctx.reply('Messaggi disattivati');
+    console.log('Messaggi disattivati')
+});
 
 bot.launch()
 
